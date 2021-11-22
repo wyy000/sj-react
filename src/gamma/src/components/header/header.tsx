@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { RoleTrigger } from './role-trigger'
 
-const Header = () => {
+const Header:React.FC = () => {
   const preload = {
     me: {
       name: '😊',
@@ -10,7 +10,7 @@ const Header = () => {
     isLoggedIn: true,
   }
 
-  let [meState, useMeState] = useState({
+  let [meState, setMeState] = useState({
     me: {
       name: '',
       id: '',
@@ -22,8 +22,10 @@ const Header = () => {
     <>
       <header className="h-10 px-16 bg-coolGray-800 flex items-center space-between">
         <h1 className="text-white text-sm flex-1">A small practice project. </h1>
-        <RoleTrigger {...preload} />
-        {/*<div onClick={() => useMeState(() => ({...preload}))}>登录</div>*/}
+        { meState.isLoggedIn
+          ? <RoleTrigger {...meState} />
+          : <button className="text-white" onClick={() => setMeState(() => ({...preload}))}>登录</button>
+        }
       </header>
     </>
   )
